@@ -1,0 +1,84 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div class="mukesh container" id="search-form-div">
+
+  <div class="dangi jumbotron col-sm-8 mukesh offset-sm-1">
+    <div class="searchwithname">
+
+      <form (ngSubmit)="onSubmit()" #searchForm=ngForm>
+        <div class="entertainment" id="form-header ">
+          <h3 style="text-align: center;">New York Post Search Engine</h3>
+        </div>
+
+        <div class=" col-sm-10 row entertainment">
+          <legend class="entertainment col-form-label entertainment">Keyword<span class="required" style="color:red;">*</span>
+            <input style="float: right" class="col-sm-10" name="locationDescription" [ngClass]="{'form-control': true, 'is-invalid': keyword.invalid && (keyword.dirty || keyword.touched)}"
+              type="text" required noWhitespace id="locationDescription" placeholder="Enter a Keyword" [(ngModel)]="form.keyword"
+              #keyword="ngModel">
+            <div style="float: right" class="entertainment invalid-feedback">Please enter a keyword </div>
+          </legend>
+        </div>
+
+
+        <div style="margin-top: 1rem;" class=" col-sm-10 row entertainment">
+          <legend class="entertainment col-form-label entertainment">Select Ranking Type<span class="required" style="color:red;">*</span>
+
+            <div class="col-sm-6 entertainment" style="float: right;">
+              <div class="form-check entertainment">
+                <input class="entertainment form-check-input" name="is_user_input" [(ngModel)]="form.isUserInput" type="radio"
+                  checked [value]="false">
+                <label class="form-check-label entertainment " for="here">PageRank</label>
+              </div>
+
+              <div style="float: right;margin-top: -25px;" class="form-check entertainment">
+                <input class="form-check-input entertainment" [(ngModel)]="form.isUserInput" name="is_user_input" type="radio"
+                  [value]="true">
+                <label class="entertainment form-check-label" for="other">Lucene</label>
+              </div>
+
+            </div>
+          </legend>
+        </div>
+
+        <div style="margin-top: 2rem;" class="form-group entertainment row" id="search-btn-group">
+          <div class="col-sm-8 entertainment">
+            <button type="submit" class="btn btn-primary" id="search-btn" [disabled]="form.invalid || keyword.invalid">
+              <i class="material-icons">search</i>Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="alert alert-warning" role="alert" *ngIf="!searchResponse">No records.</div>
+
+<div id="info-div" *ngIf="searchResponse && searchResponse.docs.length>0" class="table-responsive container">
+  <div *ngFor="let docInfo of searchResponse.docs; let  indx = index ">
+    <table class="table table-striped">
+      <tbody>
+        <tr *ngIf="docInfo.title"> Title :
+          <th>
+            {{docInfo.title[0]}}
+          </th>
+        </tr>
+        <tr *ngIf="docInfo.og_url"> URL :
+          <th>
+            {{docInfo.og_url[0]}}
+          </th>
+        </tr>
+        <tr *ngIf="docInfo.id"> ID :
+          <th> {{docInfo.id}}
+
+          </th>
+        </tr>
+
+        <tr *ngIf="docInfo.description"> Description :
+          <th>
+            {{docInfo.description[0]}}
+          </th>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
